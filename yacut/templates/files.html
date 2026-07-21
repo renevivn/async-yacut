@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container my-5 px-4">
+  <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
+  <p class="text-center my-4">
+    Загрузите один или несколько файлов.
+  </p>
+  <div class="container">
+    <div class="row my-3">
+      <div class="col-sm">
+      </div>
+      <div class="col-sm">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        <form method="POST" novalidate enctype="multipart/form-data">
+          {{ form.csrf_token }}
+          <div>
+            <div> 
+              {{ form.files(class="form-control form-control-lg py-2 mb-3")
+              }}
+              {% if form.files.errors %}
+                <p><span style="color:red">
+                  {% for error in form.files.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </span></p>
+              {% endif %}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Загрузить">
+          </div>
+        </form>
+      </div>
+      <div class="col-sm">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row ">
+      <div class="col-sm">
+      </div>
+      <div class="col-sm">
+        <p class="text-center">
+          {% if files_list %}
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Имя файла</th>
+                  <th>Короткая ссылка</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in files_list %}
+                  {% set short_url = url_for('redirect_view', short_id=item.url, _external=True) %}
+                  <tr>
+                    <td>{{ item.name }}</td>
+                    <td><a href="{{ short_url }}">{{ short_url }}</a></td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          {% endif %}
+        </p>
+      </div>
+      <div class="col-sm"></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

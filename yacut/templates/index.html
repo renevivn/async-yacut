@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="container my-5 px-4">
+  <h1 class="text-center"><span style="color:red">Ya</span>Cut</h1>
+  <p class="text-center my-4">
+    Создайте короткую ссылку автоматически или предложите свой вариант
+  </p>
+  <div class="container">
+    <div class="row my-3">
+      <div class="col-sm">
+      </div>
+      <div class="col-sm">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+        <form method="POST">
+          {{ form.csrf_token }}
+          <div>
+            <div>
+              {{ form.original_link(
+                class="form-control form-control-lg py-2 mb-3",
+                placeholder=form.original_link.label.text)
+              }}
+              {% if form.original_link.errors %}
+                <p><span style="color:red">
+                  {% for error in form.original_link.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </span></p>
+              {% endif %}
+            </div>
+            <div>
+              {{ form.custom_id(
+                class="form-control form-control-lg py-2 mb-3",
+                placeholder=form.custom_id.label.text)
+              }}
+              {% if form.custom_id.errors %}
+                <p><span style="color:red">
+                  {% for error in form.custom_id.errors %}
+                    {{ error }}
+                  {% endfor %}
+                </span></p>
+              {% endif %}
+            </div>
+            <input type="submit" class="btn btn-primary" value="Создать">
+          </div>
+        </form>
+      </div>
+      <div class="col-sm">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row ">
+      <div class="col-sm">
+      </div>
+      <div class="col-sm">
+        <p class="text-center">
+        <h5 class="text-center">
+          {% if short_url %}
+            <a href="{{ short_url }}">{{ short_url }}</a>
+          {% endif %}
+        </h5>
+      </p>
+      </div>
+      <div class="col-sm">
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
