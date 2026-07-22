@@ -1,9 +1,9 @@
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileRequired, MultipleFileField
-from wtforms import StringField, URLField
+from wtforms import StringField, SubmitField, URLField
 from wtforms.validators import URL, DataRequired, Optional, Regexp
 
-from .utils import SHORT_ID_PATTERN
+from .constants import SHORT_ID_PATTERN
 
 
 class URLMapForm(FlaskForm):
@@ -28,9 +28,11 @@ class URLMapForm(FlaskForm):
             ),
         ]
     )
+    submit = SubmitField('Создать')
 
 
 class FileForm(FlaskForm):
     """Форма для страницы загрузки файлов."""
 
     files = MultipleFileField('Выбрать файлы', validators=[FileRequired()])
+    submit = SubmitField('Загрузить')

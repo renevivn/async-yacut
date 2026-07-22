@@ -1,6 +1,7 @@
 import asyncio
 import os
 import urllib
+from http import HTTPStatus
 
 import aiohttp
 from dotenv import load_dotenv
@@ -27,10 +28,10 @@ async def upload_file_and_get_url(session, file):
         params=payload,
         url=REQUEST_UPLOAD_URL,
     ) as response:
-        data = await response.json()
-        if response.status != 200:
-            raise ValueError(f'Ошибка загрузки файла: {data}')
-        upload_url = data['href']
+        upload_response = await response.json()
+        if response.status != HTTPStatus.OK:
+            raise ValueError(f'Ошибка загрузки файла: {upload_response}')
+        upload_url = upload_response['href']
 
     file_content = file.read()
     async with session.put(
@@ -50,11 +51,11 @@ async def upload_file_and_get_url(session, file):
         params={'path': location},
         url=DOWNLOAD_LINK_URL,
     ) as response:
-        data = await response.json()
-        if response.status != 200:
-            raise ValueError(f'Ошибка загрузки файла: {data}')
+        download_response = await response.json()
+        if response.status != HTTPStatus.OK:
+            raise ValueError(f'Ошибка загрузки файла: {download_response}')
 
-    return data['href']
+    return download_response['href']
 
 
 async def async_upload_files_to_yandex_disk(files):

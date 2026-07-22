@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from flask import jsonify, render_template
 
 from . import app, db
@@ -6,7 +8,7 @@ from . import app, db
 class InvalidAPIUsage(Exception):
     """Исключение для ошибок, возникающих при обращении к API."""
 
-    status_code = 400
+    status_code = HTTPStatus.BAD_REQUEST
 
     def __init__(self, message, status_code=None):
         super().__init__()
@@ -25,14 +27,14 @@ def invalid_api_usage(error):
     return jsonify(error.to_dict()), error.status_code
 
 
-@app.errorhandler(404)
+@app.errorhandler(HTTPStatus.NOT_FOUND)
 def page_not_found(error):
     """Обрабатывает ошибку 404 и отображает страницу «Не найдено»."""
-    return render_template('404.html'), 404
+    return render_template('404.html'), HTTPStatus.NOT_FOUND
 
 
-@app.errorhandler(500)
+@app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR)
 def internal_error(error):
     """Обрабатывает внутреннюю ошибку сервера."""
     db.session.rollback()
-    return render_template('500.html'), 500
+    return render_template('500.html'), HTTPStatus.INTERNAL_SERVER_ERROR
