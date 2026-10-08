@@ -1,3 +1,5 @@
+[English version](README.md)
+
 # YaCut
 
 # **Описание**
@@ -25,17 +27,24 @@ YaCut — сервис укорачивания ссылок. Пользоват
 
 - Клонировать репозиторий и перейти в него:
 
-```git clone https://github.com/renevivn/async-yacut```
-```cd yacut```
+```bash
+git clone https://github.com/renevivn/async-yacut
+cd async-yacut
+```
 
 - Создать и активировать виртуальное окружение:
 
-```python -m venv venv```
-```source venv/Scripts/activate```
+```bash
+python -m venv venv
+source venv/bin/activate        # Linux / macOS
+source venv/Scripts/activate    # Windows (Git Bash)
+```
 
 - Установить зависимости:
 
-```pip install -r requirements.txt```
+```bash
+pip install -r requirements.txt
+```
 
 - Создать файл `.env` в корне проекта и заполнить переменные окружения:
 
@@ -49,13 +58,13 @@ DISK_TOKEN=your_yandex_disk_token
 
 - Применить миграции:
 
-```
+```bash
 flask db upgrade
 ```
 
 - Запустить проект:
 
-```
+```bash
 flask run
 ```
 
@@ -103,7 +112,7 @@ GET /api/id/practicum/
 
 # Адрес проекта
 
-http://127.0.0.1:5000/
+После запуска проект доступен по адресу http://127.0.0.1:5000/ (страница загрузки файлов — http://127.0.0.1:5000/files).
 
 # **Автор**
 
